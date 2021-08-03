@@ -1,51 +1,25 @@
 package main
 
 import (
-	"image"
-	"image/color"
-	"image/gif"
-	"io"
+	"fmt"
+	"io/ioutil"
+	"net/http"
 	"os"
 )
 
-var palette = []color.Color{color.White, color.Black, color.RGBA{80,80,80, 80}}
-
-const (
-	whiteIndex = 0
-	blackIndex = 1
-)
-
-
-
-
-func main() {
-	lissajous(os.Stdout)
-}
-
-func lissajous(out io.Writer) {
-	const (
-		cycles  = 5
-		res     = 0.001
-		size    = 100
-		nframes = 64
-		delay   = 8
-	)
-
-	//freq := rand.Float64() * 3.0
-	anim := gif.GIF{LoopCount: nframes}
-	phase := 0.0
-	for i := 0; i < nframes; i++ {
-		rect := image.Rect(0, 0, 2*size+1, 2*size+1)
-		img := image.NewPaletted(rect, palette)
-		img.SetColorIndex(size/2.0, size/2.0, blackIndex)
-	/*	for t := 0.0; t < cycles*2*math.Pi; t += res {
-			x := math.Sin(t)
-			y := math.Sin(t*freq + phase)
-			img.SetColorIndex(size+int(x*size+0.5), size+int(y*size+0.5), blackIndex)
-		}*/
-		phase += 0.1
-		anim.Delay = append(anim.Delay, delay)
-		anim.Image = append(anim.Image, img)
+func main(){
+	for _,url := range os.Args[1:]{
+		resp,err := http.Get(url)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Fetch: %v\n", err)
+			os.Exit(1)
+		}
+		b, err := ioutil.ReadAll(resp.Body)
+		resp.Body.Close()
+		if err != nil{
+			fmt.Fprintf(os.Stderr, "Fetch: %v\n", err)
+			os.Exit(1)
+		}
+		fmt.Printf("%s", b)
 	}
-	gif.EncodeAll(out, &anim)
 }
