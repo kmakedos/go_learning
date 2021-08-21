@@ -1,37 +1,32 @@
 package main
 
-import (
-	"fmt"
+import "fmt"
+
+const (
+	n =  iota
+	m
+	g
 )
 
-func arcopy(x [3]int) [3]int {
-	x[0] = -1
-	return x
+
+func reverse(s *[3]int) {
+	for i,j:=0, len(s)-1; i<j; i,j=i+1,j-1 {
+		s[i],s[j] = s[j],s[i]
+	}
 }
 
-func achange(x [3]int) {
-	x[0] = -2
-}
-
-func slicechange(sx []int){
-	sx[0] = -3
+func reverse_b(b []rune) string {
+	for i,j:=0,len(b)-1;i<j;i,j=i+1,j-1 {
+		fmt.Println(b[i],b[j])
+		b[i],b[j] = b[j],b[i]
+	}
+	return string(b)
 }
 func main(){
-	x := [3]int{1,2,3}
-	for k := range x {
-		fmt.Println( x[k])
-	}
-	arcopy(x)
-	for k:=range x{
-		fmt.Println(x[k])
-	}
-	achange(x)
-	for k:=range x{
-		fmt.Println(x[k])
-	}
-	slicechange(x[0:2])
-	for k:= range x{
-		fmt.Println(x[k])
-	}
-
+	s := [3]int {1,2,3}
+	reverse(&s)
+	fmt.Println(s)
+	b := "κωστας 你 好! "
+	b= reverse_b([]rune(b))
+	fmt.Println(b)
 }
