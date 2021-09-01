@@ -1,32 +1,21 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
+	"go_learning/github"
 	"log"
+	"os"
 )
 
-type Movie struct {
-	Title string
-	Year int `json:"released"`
-	Color bool `json:"color,omitempty"`
-	Actors []string
-}
-
-var movies = []Movie {
-		{Title: "Casablanka", Year: 1942, Color: false,
-			Actors: []string{"Humphrey Bogart", "Ingrid Bergman"}},
-		{Title: "Cool Hand Luke", Year: 1967, Color: true,
-			Actors: []string{"Paul Newman"},
-		},
-		{Title: "Bullitt", Year: 1968, Color: true,
-			Actors: []string{"Steve McQueen", "Jacqueline Bisset"}},
-}
-
 func main(){
-	data,err := json.MarshalIndent(movies,"", "  ")
+	result,err := github.SearchIssues(os.Args[1:])
 	if err != nil {
-		log.Fatalf("Json marshaling failed: %s", err)
+		log.Fatal(err)
 	}
-	fmt.Printf("%s\n", data)
+
+	fmt.Printf("%d issues\n", result.TotalCount)
+	for _,item :=  range result.Items {
+		fmt.Printf("#%-5d %9.9s %.55s\n",
+			item.Number, item.User.Login, item.Title)
+	}
 }
