@@ -1,21 +1,7 @@
 package main
 
-import (
-	"fmt"
-	"go_learning/github"
-	"log"
-	"os"
-)
+import "go_learning/xkcd"
 
 func main(){
-	result,err := github.SearchIssues(os.Args[1:])
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	fmt.Printf("%d issues\n", result.TotalCount)
-	for _,item :=  range result.Items {
-		fmt.Printf("#%-5d %9.9s %.55s\n",
-			item.Number, item.User.Login, item.Title)
-	}
+	xkcd.Get("571")
 }
