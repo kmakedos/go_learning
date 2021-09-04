@@ -25,20 +25,20 @@ type ComicStrip struct {
 
 
 
-func Get(num string){
-	resp, err := http.Get(XKCD_URL + num + "/info.0.json")
+func Get(num int) (*ComicStrip, error) {
+	resp, err := http.Get(fmt.Sprintf("%s/%d/info.0.json", XKCD_URL ,  num ))
 	if err != nil {
-		log.Fatalln("Error getting comic strip")
+		log.Printf("Error getting comic strip %s", err)
 	}
 	if resp.StatusCode != http.StatusOK {
-		log.Fatalln("Some error occurred")
 		resp.Body.Close()
+		return nil, fmt.Errorf("Erroneous Status Code")
 	}
 	var strip ComicStrip
 	if err := json.NewDecoder(resp.Body).Decode(&strip); err != nil {
-		log.Fatalf("Error decoding %s", err)
 		resp.Body.Close()
+		return nil, fmt.Errorf("Could not decode %s",err)
 	}
 	resp.Body.Close()
-	fmt.Println(strip.Title)
+	return &strip,nil
 }
