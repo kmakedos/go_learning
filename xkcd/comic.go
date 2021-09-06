@@ -10,19 +10,18 @@ import (
 const XKCD_URL = "https://xkcd.com/"
 
 type ComicStrip struct {
-	Month string
+//	Month string
 	Num int
-	Link string
-	Year string
-	News string
-	SafeTitle string `json:"safe_title"`
-	Transcript string
-	Alternate string `json: "alt"`
-	Img string
+//	Link string
+//	Year string
+//	News string
+//	SafeTitle string `json:"safe_title"`
+//	Transcript string
+//	Alternate string `json: "alt"`
+//	Img string
 	Title string
-	Day string
+//	Day string
 }
-
 
 
 func Get(num int) (*ComicStrip, error) {
