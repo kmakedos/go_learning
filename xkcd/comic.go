@@ -16,7 +16,7 @@ type ComicStrip struct {
 //	Year string
 //	News string
 //	SafeTitle string `json:"safe_title"`
-//	Transcript string
+	Transcript string
 //	Alternate string `json: "alt"`
 //	Img string
 	Title string
