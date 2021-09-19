@@ -5,12 +5,12 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strings"
 )
 
 const XKCD_URL = "https://xkcd.com/"
 
 type ComicStrip struct {
-//	Month string
 	Num int
 //	Link string
 //	Year string
@@ -19,8 +19,8 @@ type ComicStrip struct {
 	Transcript string
 //	Alternate string `json: "alt"`
 //	Img string
+	Link string
 	Title string
-//	Day string
 }
 
 
@@ -40,4 +40,21 @@ func Get(num int) (*ComicStrip, error) {
 	}
 	resp.Body.Close()
 	return &strip,nil
+}
+
+
+func Tokenize(strip *ComicStrip) []string{
+
+	trimChars := "{}()[],.'"
+	var words []string
+
+	for _, word := range strings.Split(strip.Transcript, " "){
+		strings.Trim(word, trimChars)
+		words = append(words, word)
+	}
+	for _, word := range strings.Split(strip.Title, " "){
+		strings.Trim(word, trimChars)
+		words = append(words, word)
+	}
+	return words
 }
