@@ -10,6 +10,13 @@ import (
 )
 
 
+func updateMap(numbers []int) map[int]int{
+	m := make(map[int]int)
+	for _,v := range numbers{
+		m[v]++
+	}
+	return m
+}
 
 func main(){
 	if len(os.Args) < 2 {
@@ -41,7 +48,7 @@ func main(){
 		}
 		w.Flush()
 	} else {
-		f,err := os.Open("index.txt")
+		f, err := os.Open("index.txt")
 		if err != nil {
 			log.Fatalln(err)
 		}
@@ -50,8 +57,10 @@ func main(){
 		if err != nil {
 			log.Fatalln(err)
 		}
-		for _,word := range os.Args[1:]{
-			fmt.Println(wordMap[word])
+		for _, word := range os.Args[1:] {
+			if m, ok := wordMap[word]; ok {
+				fmt.Println(m)
+			}
 		}
 	}
 
