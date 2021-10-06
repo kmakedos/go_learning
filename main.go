@@ -57,10 +57,14 @@ func main(){
 		if err != nil {
 			log.Fatalln(err)
 		}
+		var ids []int
 		for _, word := range os.Args[1:] {
 			if m, ok := wordMap[word]; ok {
-				fmt.Println(m)
+				ids = append(ids, m...)
 			}
+		}
+		for _,id := range ids {
+			fmt.Printf("%s%d\n", xkcd.XKCD_URL, id)
 		}
 	}
 
