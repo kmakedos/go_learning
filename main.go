@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
 	"log"
 	"os"
@@ -9,21 +8,21 @@ import (
 )
 
 func fib1(n int) int {
-	if n <= 1 {
-		return 0
+	if n < 2 {
+		return n
 	} else {
-		return fib1(n-1) + fib1(n-2)
+		return n + fib1(n-1)
 	}
 }
 
 
 func main(){
-	reader := bufio.NewReader(os.Stdin)
-	fmt.Print("Enter num>")
-	text,_ := reader.ReadString('\n')
-	n,err := strconv.Atoi(text)
+	if len(os.Args) < 2 {
+		log.Fatalln("Not enough arguments, please give me a num")
+	}
+	n,err := strconv.Atoi(os.Args[1])
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalln(err)
 	}
 	fmt.Print(fib1(n))
 }
