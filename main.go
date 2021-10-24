@@ -1,21 +1,29 @@
 package main
 
 import (
-	"html/template"
+	"bufio"
+	"fmt"
 	"log"
 	"os"
+	"strconv"
 )
 
-func main() {
-	const templ = `<p>A: {{.A}}</p><p>B: {{.B}}</p>`
-	t := template.Must(template.New("t").Parse(templ))
-	var data struct {
-		A string        // untrusted plain text
-		B template.HTML // trusted HTML
+func fib1(n int) int {
+	if n <= 1 {
+		return 0
+	} else {
+		return fib1(n-1) + fib1(n-2)
 	}
-	data.A = "<b>Hello!</b>"
-	data.B = "<b>Hello!</b>"
-	if err := t.Execute(os.Stdout, data); err != nil {
+}
+
+
+func main(){
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Print("Enter num>")
+	text,_ := reader.ReadString('\n')
+	n,err := strconv.Atoi(text)
+	if err != nil {
 		log.Fatal(err)
 	}
+	fmt.Print(fib1(n))
 }
