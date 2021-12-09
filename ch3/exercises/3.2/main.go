@@ -46,17 +46,17 @@ func corner(i, j int) (float64, float64) {
 	y := xyrange * (float64(j)/cells - 0.5)
 
 	// Compute surface height z.
-	z := f(x, y, 100)
+	z := f(x, y)
 
 	// Project (x,y,z) isometrically onto 2-D SVG canvas (sx,sy).
-	sx := width/2 + (x-y) * cos30 * xyscale
-	sy := height/2 + (x+y) * sin30 * xyscale - z * zscale
+	sx := width/2 + (x-y)*cos30*xyscale
+	sy := height/2 + (x+y)*sin30*xyscale - z*zscale
 	return sx, sy
 }
 
-func f(x, y float64, precision int) float64 {
+func f(x, y float64) float64 {
 	r := math.Hypot(x, y) // distance from (0,0)
-	return float64((int(math.Sin(r) / r)*precision)/precision)
+	return math.Sin(r) / r
 }
 
 //!-
